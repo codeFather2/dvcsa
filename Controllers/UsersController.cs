@@ -45,7 +45,7 @@ public class UsersController : ControllerBase
         var user = _context.Users.FirstOrDefault(u => u.Name == name);
         if (user == null)
         {
-            return NotFound($"User {name} not found");
+            return Content($"User {name} not found", "text/html");
         }
         return Ok($"{user.Name} - {user.Password}");
     }
