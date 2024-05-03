@@ -38,4 +38,15 @@ public class UsersController : ControllerBase
         _context.SaveChanges();
         return CreatedAtRoute("CreateUser", new { id = user.Id }, user);
     }
+    
+    [HttpGet("search", Name = "SearchForUser")]
+    public ActionResult<string> SearchForUser(string name)
+    {
+        var user = _context.Users.FirstOrDefault(u => u.Name == name);
+        if (user == null)
+        {
+            return NotFound($"User {name} not found");
+        }
+        return Ok($"{user.Name} - {user.Password}");
+    }
 }

@@ -41,19 +41,18 @@ paths:
       operationId: api_Users_GET
       parameters:
       - in: query
-        name: id
+        name: name
         schema:
-          format: int32
-          type: integer
+          type: string
           x-field-kind: normal
-          x-field-original-type: System.int
-          x-field-type: integer
+          x-field-original-type: System.string
+          x-field-type: string
         x-category: query parameter
       responses:
         default:
           description: Default response
       x-name: api_Users_GET
-      x-source: Controllers/UsersController.cs~~42
+      x-source: Controllers/UsersController.cs~~22
     post:
       operationId: api_Users_POST
       requestBody:
@@ -68,26 +67,24 @@ paths:
       x-name: api_Users_POST
       x-source: Controllers/UsersController.cs~~34
     x-name: api_Users
-  /api/Users/{id}:
+  /api/Users/search:
     get:
-      operationId: api_Users_{id}_GET
+      operationId: api_Users_search_GET
       parameters:
-      - in: path
-        name: id
-        required: true
+      - in: query
+        name: name
         schema:
-          format: int32
-          type: integer
+          type: string
           x-field-kind: normal
-          x-field-original-type: System.int
-          x-field-type: integer
-        x-category: path parameter
+          x-field-original-type: System.string
+          x-field-type: string
+        x-category: query parameter
       responses:
         default:
           description: Default response
-      x-name: api_Users_{id}_GET
+      x-name: api_Users_search_GET
       x-source: Controllers/UsersController.cs~~42
-    x-name: api_Users_{id}
+    x-name: api_Users_search
 servers:
 - description: Default server
   url: http://localhost:9000
