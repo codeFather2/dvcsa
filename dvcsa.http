@@ -1,0 +1,6 @@
+@dvcsa_HostAddress = http://localhost:9000
+
+GET {{dvcsa_HostAddress}}/api/Users/
+Accept: application/json
+
+###

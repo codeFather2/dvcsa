@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  dvcsa:
+    image: dvcsa-app # Change this to the name you want for your Docker image
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000" # Change the port mapping if your app listens on a different port
