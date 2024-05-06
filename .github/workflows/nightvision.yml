@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 
 env:
+  #### SHOULD RUN IN DEBUG MODE FOR BETTER OUTPUT
   # nightvision app create -n dvcsa
   # nightvision target create -n dvcsa -u http://localhost:8999 --type api
   # nightvision swagger extract ./ -t dvcsa --lang dotnet
