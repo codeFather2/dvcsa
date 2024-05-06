@@ -1,7 +1,7 @@
 name: Test Case - DotNet App
 
 on:
-  push:
+  # push:
   workflow_dispatch:
 
 env:
