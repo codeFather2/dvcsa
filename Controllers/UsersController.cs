@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace dvcsa.Controllers;
 
 [ApiController]
-[Route("/api/[controller]")]
+[Route("/[controller]")]
 public class UsersController : ControllerBase
 {
 
