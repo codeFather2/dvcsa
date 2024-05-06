@@ -1,0 +1,52 @@
+name: Test Case - Flask App
+
+on:
+  # push:
+  workflow_dispatch:
+
+env:
+  # nightvision app create -n dvcsa
+  # nightvision target create -n dvcsa -u http://localhost:8999 --type api
+  # nightvision swagger extract ./ -t dvcsa --lang dotnet
+  # nightvision scan -t dvcsa -a dvcsa
+  NIGHTVISION_TOKEN: ${{ secrets.NIGHTVISION_TOKEN }}
+  NIGHTVISION_TARGET: dvcsa
+  NIGHTVISION_APP: dvcsa
+  
+jobs:
+  test:
+    permissions:
+      security-events: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: (1) Clone Code
+        uses: actions/checkout@v3
+      
+      - name: (2) Install NightVision
+        run: |
+            wget -c https://downloads.nightvision.net/binaries/latest/nightvision_latest_linux_amd64.tar.gz -O - \
+            | tar -xz; sudo mv nightvision /usr/local/bin/
+
+      - name: (3) Extract API documentation from code
+        run: nightvision swagger extract ./ -t ${NIGHTVISION_TARGET} --lang dotnet
+
+      - name: (4) Start the app
+        run: docker-compose up -d; sleep 10
+
+      - name: (5) Scan the API
+        run: |
+          nightvision scan -t ${NIGHTVISION_TARGET} -a ${NIGHTVISION_APP} > scan-results.txt
+          nightvision export sarif -s "$(head -n 1 scan-results.txt)" --swagger-file openapi-spec.yml
+
+      - name: (5.5) Upload sarif documentation artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: results.sarif
+          path: results.sarif
+          retention-days: 30
+
+      - name: (6) Upload SARIF file to GitHub Security Alerts if vulnerabilities are found
+        uses: github/codeql-action/upload-sarif@v2
+        if: success()
+        with:
+          sarif_file: results.sarif
