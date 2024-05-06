@@ -7,4 +7,4 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "9000:9000" # Change the port mapping if your app listens on a different port
+      - "8999:9000" # Change the port mapping if your app listens on a different port

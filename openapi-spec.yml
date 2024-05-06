@@ -27,18 +27,18 @@ info:
   version: "0.1"
 openapi: 3.0.0
 paths:
-  /api/.env:
+  /.env:
     get:
-      operationId: api_.env_GET
+      operationId: .env_GET
       responses:
         default:
           description: Default response
-      x-name: api_.env_GET
+      x-name: .env_GET
       x-source: Controllers/EnvController.cs~~9
-    x-name: api_.env
-  /api/Users:
+    x-name: .env
+  /Users:
     get:
-      operationId: api_Users_GET
+      operationId: Users_GET
       parameters:
       - in: query
         name: name
@@ -51,10 +51,10 @@ paths:
       responses:
         default:
           description: Default response
-      x-name: api_Users_GET
+      x-name: Users_GET
       x-source: Controllers/UsersController.cs~~22
     post:
-      operationId: api_Users_POST
+      operationId: Users_POST
       requestBody:
         content:
           application/json:
@@ -64,12 +64,12 @@ paths:
       responses:
         default:
           description: Default response
-      x-name: api_Users_POST
+      x-name: Users_POST
       x-source: Controllers/UsersController.cs~~34
-    x-name: api_Users
-  /api/Users/search:
+    x-name: Users
+  /Users/search:
     get:
-      operationId: api_Users_search_GET
+      operationId: Users_search_GET
       parameters:
       - in: query
         name: name
@@ -82,9 +82,9 @@ paths:
       responses:
         default:
           description: Default response
-      x-name: api_Users_search_GET
+      x-name: Users_search_GET
       x-source: Controllers/UsersController.cs~~42
-    x-name: api_Users_search
+    x-name: Users_search
 servers:
 - description: Default server
-  url: http://localhost:9000
+  url: http://localhost:8999
