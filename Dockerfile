@@ -13,4 +13,4 @@ RUN dotnet dev-certs https --trust
 
 # Build the application
 ENTRYPOINT ["dotnet"]
-CMD ["watch", "--project" , "dvcsa.csproj", "--verbose",  "run", "--","--project" , "dvcsa.csproj"]
+CMD ["watch", "--project" , "dvcsa.csproj",  "run", "--","--project" , "dvcsa.csproj"]

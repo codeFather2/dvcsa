@@ -5,7 +5,7 @@ services:
     build: .
     ports:
       - "8999:9000"
-    command: ["dotnet", "watch", "--project" , "dvcsa.csproj", "--verbose", "run", "--", "--project" , "dvcsa.csproj"]
+    command: ["dotnet", "watch", "--project" , "dvcsa.csproj", "run", "--", "--project" , "dvcsa.csproj"]
     volumes:
       - .:/app
       - /app/obj/ # <- directory won't be mounted
