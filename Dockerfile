@@ -1,5 +1,5 @@
 # Use the official ASP.NET Core SDK image
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
 # Set the working directory in the container
 WORKDIR /app
@@ -9,6 +9,8 @@ RUN dotnet restore dvcsa.csproj
 
 COPY . .
 
+RUN dotnet dev-certs https --trust
+
 # Build the application
 ENTRYPOINT ["dotnet"]
-CMD ["watch", "run", "-v", "--project" , "dvcsa.csproj"]
+CMD ["watch", "--project" , "dvcsa.csproj", "--verbose",  "run", "--","--project" , "dvcsa.csproj"]
