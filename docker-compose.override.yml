@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  hotreload.sample.api:
+  dvcsa:
     build: .
     ports:
       - "8999:9000"
@@ -10,6 +10,4 @@ services:
       - .:/app
       - /app/obj/ # <- directory won't be mounted
       - /app/bin/ # <- directory won't be mounted
-      - /app/HotReload.Sample.API/obj/ # <- directory won't be mounted
-      - /app/HotReload.Sample.API/bin/ # <- directory won't be mounted
       - ~/.aspnet/https:/https:ro
