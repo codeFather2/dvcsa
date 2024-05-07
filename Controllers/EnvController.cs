@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace dvcsa.Controllers;
 
 [ApiController]
-[Route("/api/.env")]
+[Route("/.env")]
 public class EnvController : ControllerBase
 {
     [HttpGet(Name = "GetEnv")]
