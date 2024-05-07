@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  dvcsa:
+    build: .
+    ports:
+      - "8999:9000"
+    command: ["dotnet", "watch", "--project" , "dvcsa.csproj", "run", "--", "--project" , "dvcsa.csproj"]
+    volumes:
+      - .:/app
+      - /app/obj/ # <- directory won't be mounted
+      - /app/bin/ # <- directory won't be mounted
+      - ~/.aspnet/https:/https:ro

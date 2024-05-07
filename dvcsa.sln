@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dvcsa", "dvcsa.csproj", "{B27AEEE8-0106-4A4D-89EC-17701045060A}"
+EndProject
+Project("{A100CA04-B6C7-4E56-9846-7B81227F843B}") = "docker-compose", "docker-compose.dcproj", "{9C31F76D-0249-4004-9B65-D5FA07CF95F8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{07E3C9FD-AF21-4D18-9D79-DAE47E0223FE}"
+	ProjectSection(SolutionItems) = preProject
+		check-endpoint.sh = check-endpoint.sh
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B27AEEE8-0106-4A4D-89EC-17701045060A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B27AEEE8-0106-4A4D-89EC-17701045060A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B27AEEE8-0106-4A4D-89EC-17701045060A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B27AEEE8-0106-4A4D-89EC-17701045060A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

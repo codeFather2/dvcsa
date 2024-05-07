@@ -1,3 +1,4 @@
+using System.Text.Encodings.Web;
 using dvcsa.Db;
 using dvcsa.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,14 @@ public class UsersController : ControllerBase
     {
         try
         {
-            return _context.Set<User>().FromSqlRaw($"SELECT * FROM Users WHERE Users.Name = '{name}'").FirstOrDefault();
+            var user = _context.Set<User>().FromSqlRaw($"SELECT * FROM Users WHERE Users.Name = '{name}'").FirstOrDefault();
+            // to avoid SQLI use parameters (or EF methods)
+            // var user = _context.Set<User>().FromSqlRaw("SELECT * FROM Users WHERE Users.Name = {0}", name).FirstOrDefault();
+            if (user == null)
+            {
+                return NotFound($"User {name} not found");
+            }
+            return Ok(user);
         } catch (Exception e)
         {
             return BadRequest(e.Message);
@@ -45,8 +53,10 @@ public class UsersController : ControllerBase
         var user = _context.Users.FirstOrDefault(u => u.Name == name);
         if (user == null)
         {
-            return Content($"User {name} not found", "text/html");
+            return Content($"<p>User {name} not found</p>", "text/html");
+            // var encodedName = UrlEncoder.Default.Encode(name);
+            // return Content($"<p>User {encodedName} not found</p>", "text/html");
         }
-        return Ok($"{user.Name} - {user.Password}");
+        return Ok($"Name: {user.Name} - Password: {user.Password}");
     }
 }
