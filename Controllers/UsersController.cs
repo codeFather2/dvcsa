@@ -47,6 +47,6 @@ public class UsersController : ControllerBase
         {
             return Content($"User {name} not found", "text/html");
         }
-        return Ok($"{user.Name} - {user.Password}");
+        return Ok($"Name: {user.Name} - Password: {user.Password}");
     }
 }

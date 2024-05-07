@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  hotreload.sample.api:
+    build: .
+    ports:
+      - "8999:9000"
+    command: ["dotnet", "watch","run", -v, "--project" , "dvcsa.csproj"]
+    volumes:
+      - .:/app
+      - /app/obj/ # <- directory won't be mounted
+      - /app/bin/ # <- directory won't be mounted
+      - /app/HotReload.Sample.API/obj/ # <- directory won't be mounted
+      - /app/HotReload.Sample.API/bin/ # <- directory won't be mounted
+      - ~/.aspnet/https:/https:ro
