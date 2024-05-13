@@ -25,9 +25,9 @@ public class UsersController : ControllerBase
     {
         try
         {
-            var user = _context.Set<User>().FromSqlRaw($"SELECT * FROM Users WHERE Users.Name = '{name}'").FirstOrDefault();
+            // var user = _context.Set<User>().FromSqlRaw($"SELECT * FROM Users WHERE Users.Name = '{name}'").FirstOrDefault();
             // to avoid SQLI use parameters (or EF methods)
-            // var user = _context.Set<User>().FromSqlRaw("SELECT * FROM Users WHERE Users.Name = {0}", name).FirstOrDefault();
+            var user = _context.Set<User>().FromSqlRaw("SELECT * FROM Users WHERE Users.Name = {0}", name).FirstOrDefault();
             if (user == null)
             {
                 return NotFound($"User {name} not found");
@@ -53,9 +53,9 @@ public class UsersController : ControllerBase
         var user = _context.Users.FirstOrDefault(u => u.Name == name);
         if (user == null)
         {
-            return Content($"<p>User {name} not found</p>", "text/html");
-            // var encodedName = UrlEncoder.Default.Encode(name);
-            // return Content($"<p>User {encodedName} not found</p>", "text/html");
+            // return Content($"<p>User {name} not found</p>", "text/html");
+            var encodedName = UrlEncoder.Default.Encode(name);
+            return Content($"<p>User {encodedName} not found</p>", "text/html");
         }
         return Ok($"Name: {user.Name} - Password: {user.Password}");
     }
