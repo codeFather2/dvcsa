@@ -1,10 +1,15 @@
-image: docker:stable
-
 # # SETUP STEPS
 # nightvision app create -n dvcsa
 # nightvision target create -n dvcsa -u https://localhost:8999 --type api
 # nightvision swagger extract ./ -t dvcsa --lang spring 
-# nightvision auth playwright create -u https://localhost:8999 -n dvcsa
+
+## not required for this app, but an example of authentication setup
+# nightvision auth playwright create -u $YOURURL -n $YOURAPP
+
+## local scan command example
+# nightvision scan -t dvcsa -a dvcsa
+
+image: docker:stable
 
 pipelines:
   default:

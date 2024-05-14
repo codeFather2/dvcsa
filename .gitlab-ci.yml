@@ -1,3 +1,23 @@
+# # SETUP STEPS
+# nightvision app create -n dvcsa
+## note that gitlab and docker dind require the docker hostname instead of localhost
+# nightvision target create -n dvcsa -u https://docker:8999 --type api
+# nightvision swagger extract ./ -t dvcsa --lang spring 
+
+## note that if your application requires an authentication 
+## you will want to add an alias to localhost in your /etc/hosts file. 
+## EX:
+#     echo "# gitlab" >> /etc/hosts
+#     echo "127.0.0.1   docker" >> /etc/hosts
+## then you can authenticate
+#      nightvision auth playwright create -u $YOURURL -n $YOURAPP
+
+## not required for this app, but an example of authentication setup
+# nightvision auth playwright create -u $YOURURL -n $YOURAPP
+
+## local scan command example
+# nightvision scan -t dvcsa -a dvcsa
+
 stages:
   - test
   - convert_sarif_to_gitlab
