@@ -27,6 +27,15 @@ info:
   version: "0.1"
 openapi: 3.0.0
 paths:
+  /.env:
+    get:
+      operationId: .env_GET
+      responses:
+        default:
+          description: Default response
+      x-name: .env_GET
+      x-source: Controllers/EnvController.cs~~9
+    x-name: .env
   /Users:
     get:
       operationId: Users_GET
