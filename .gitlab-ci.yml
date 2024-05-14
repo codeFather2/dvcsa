@@ -1,0 +1,79 @@
+# # SETUP STEPS
+# nightvision app create -n dvcsa
+## note that gitlab and docker dind require the docker hostname instead of localhost
+# nightvision target create -n dvcsa -u https://docker:8999 --type api
+# nightvision swagger extract ./ -t dvcsa --lang spring 
+
+## note that if your application requires an authentication 
+## you will want to add an alias to localhost in your /etc/hosts file. 
+## EX:
+#     echo "# gitlab" >> /etc/hosts
+#     echo "127.0.0.1   docker" >> /etc/hosts
+## then you can authenticate
+#      nightvision auth playwright create -u $YOURURL -n $YOURAPP
+
+## not required for this app, but an example of authentication setup
+# nightvision auth playwright create -u $YOURURL -n $YOURAPP
+
+## local scan command example
+# nightvision scan -t dvcsa -a dvcsa
+
+stages:
+  - test
+  - convert_sarif_to_gitlab
+
+variables:
+  NIGHTVISION_TARGET: dvcsa-gitlab
+  NIGHTVISION_APP: dvcsa-gitlab
+  NIGHTVISION_AUTH: dvcsa-gitlab
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+  FF_NETWORK_PER_BUILD: "true"     # activate container-to-container networking
+
+services:
+  - docker:dind
+
+test:
+  stage: test
+  image: ubuntu:latest
+  services:
+    - docker:dind
+  before_script:
+    - apt-get update && apt-get install -y wget python3-venv python3-docker python3-pip python3 docker-compose curl gcc musl-dev libffi-dev
+    - python3 -m venv venv
+    - source venv/bin/activate
+    - pip3 install requests urllib3 semgrep
+    - wget -c https://downloads.nightvision.net/binaries/latest/nightvision_latest_linux_amd64.tar.gz -O - | tar -xz
+    - mv nightvision /usr/local/bin/
+  script:
+    # "Extract API documentation from code"
+    - nightvision swagger extract ./ --lang dotnet -t ${NIGHTVISION_APP} || true
+    - if [ ! -e openapi-spec.yml ]; then cp backup-openapi-spec.yml openapi-spec.yml; fi
+    # "Starting the app"
+    - docker-compose up -d
+    - sleep 60
+    # # test connection
+    - curl -k https://docker:8999
+    # "Scanning the API"
+    - nightvision scan -t ${NIGHTVISION_TARGET} -a ${NIGHTVISION_APP} --auth ${NIGHTVISION_AUTH} > scan-results.txt
+    - nightvision export sarif -s "$(head -n 1 scan-results.txt)" --swagger-file openapi-spec.yml
+    # "Getting logs"
+    - for pod in $(docker ps | grep -v 'CONTAINER ID' | grep -v IMAGE | awk '{print $1}'); do docker logs $pod >> test.pod.logs 2>&1; done
+  artifacts:
+    paths:
+      - openapi-spec.yml
+      - test.pod.logs
+      - results.sarif
+    expire_in: 30 days
+
+convert_sarif_to_gitlab:
+  stage: convert_sarif_to_gitlab
+  image: python:3.9 
+  script:
+    - wget -O convert_sarif_to_gitlab.py https://gist.githubusercontent.com/alex-nightvision/c928e87331f55e67e008bcc8c1033951/raw/2d1281a0b55f93428232f68d8d229b1d0f3854c4/convert_sarif_to_gitlab.py
+    - python3 convert_sarif_to_gitlab.py
+  artifacts:
+    reports:
+      sast: gitlab_security_report.json
+  dependencies:
+    - test

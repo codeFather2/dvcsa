@@ -22,3 +22,10 @@ To run
 ```sh
 docker-compose up -d
 ```
+
+## Examples:
+
+- [GitHub](https://github.com/codeFather2/dvcsa/blob/main/.github/workflows/nightvision.yml)
+- [GitLab](https://github.com/codeFather2/dvcsa/blob/main/.gitlab-ci.yml)
+- [Azure Devops](https://github.com/codeFather2/dvcsa/blob/main/azure-pipelines.yml)
+- [Bitbucket](https://github.com/codeFather2/dvcsa/blob/main/bitbucket-pipelines.yml)
