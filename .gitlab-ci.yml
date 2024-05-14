@@ -2,7 +2,7 @@
 # nightvision app create -n dvcsa
 ## note that gitlab and docker dind require the docker hostname instead of localhost
 # nightvision target create -n dvcsa -u https://docker:8999 --type api
-# nightvision swagger extract ./ -t dvcsa --lang spring 
+# nightvision swagger extract ./ -t dvcsa --lang dotnet 
 
 ## note that if your application requires an authentication 
 ## you will want to add an alias to localhost in your /etc/hosts file. 
