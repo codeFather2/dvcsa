@@ -1,0 +1,33 @@
+image: docker:stable
+
+# # SETUP STEPS
+# nightvision app create -n dvcsa
+# nightvision target create -n dvcsa -u https://localhost:8999 --type api
+# nightvision swagger extract ./ -t dvcsa --lang spring 
+# nightvision auth playwright create -u https://localhost:8999 -n dvcsa
+
+pipelines:
+  default:
+    - step:
+        name: Scan dotnet Spring App
+        services:
+          - docker
+        script:
+          - apk add --no-cache docker-compose curl tar
+          - curl -L https://downloads.nightvision.net/binaries/latest/nightvision_latest_linux_amd64.tar.gz -q | tar -xz && mv nightvision /usr/local/bin/
+          - nightvision version
+          - docker run -v $(pwd):/mnt --env "NIGHTVISION_TOKEN=$NIGHTVISION_TOKEN" alexnightvision/nightvision-cli nightvision version
+          - docker-compose up -d
+          - sleep 10  # Wait for containers to fully start
+          - curl -k https://localhost:8999 | head
+          # swap to nightvision container for semgrep SAST steps
+          - docker run -v $(pwd):/mnt --env "NIGHTVISION_TOKEN=$NIGHTVISION_TOKEN" alexnightvision/nightvision-cli nightvision swagger extract ./ -t dvcsa --lang dotnet 
+          # use host pipeline container for everything else to avoid timeouts
+          - nightvision scan -t dvcsa -a dvcsa --auth dvcsa > scan-results.txt
+          - nightvision export sarif -s "$(head -n 1 scan-results.txt)" --swagger-file openapi-spec.yml
+          # Note: Uploading the SARIF file to Bitbucket or an equivalent service needs a different approach
+          # Save pod application logs
+          - for pod in $(docker ps | grep -v 'CONTAINER ID' | grep -v IMAGE | awk '{print $1}'); do docker logs $pod && docker logs $pod >> test.pod.logs 2>&1; done
+        max-time: 30 # Time in minutes
+        artifacts:
+          - test.pod.logs

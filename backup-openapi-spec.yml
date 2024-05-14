@@ -27,15 +27,6 @@ info:
   version: "0.1"
 openapi: 3.0.0
 paths:
-  /.env:
-    get:
-      operationId: .env_GET
-      responses:
-        default:
-          description: Default response
-      x-name: .env_GET
-      x-source: Controllers/EnvController.cs~~9
-    x-name: .env
   /Users:
     get:
       operationId: Users_GET
@@ -52,7 +43,7 @@ paths:
         default:
           description: Default response
       x-name: Users_GET
-      x-source: Controllers/UsersController.cs~~22
+      x-source: Controllers/UsersController.cs~~23
     post:
       operationId: Users_POST
       requestBody:
@@ -65,7 +56,7 @@ paths:
         default:
           description: Default response
       x-name: Users_POST
-      x-source: Controllers/UsersController.cs~~34
+      x-source: Controllers/UsersController.cs~~42
     x-name: Users
   /Users/search:
     get:
@@ -83,7 +74,7 @@ paths:
         default:
           description: Default response
       x-name: Users_search_GET
-      x-source: Controllers/UsersController.cs~~42
+      x-source: Controllers/UsersController.cs~~50
     x-name: Users_search
 servers:
 - description: Default server
