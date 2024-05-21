@@ -42,7 +42,7 @@ stages:
     - script: |
         docker-compose up -d
         sleep 20
-        curl -k https://localhost:8998
+        curl -k https://localhost:8999
       displayName: 'Start the App'
 
     - script: |
